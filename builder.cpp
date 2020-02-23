@@ -194,7 +194,7 @@ int main() {
     builder.agregarExtremidades(BRAZO, 5, 70.0);
     builder.agregarExtremidades(PIERNA, 5, 70.0);
     builder.agregarExtremidades(PIERNA, 5, 70.0);
-    builder.agregarCabezas(2);
+    builder.agregarCabezas(1);
     builder.agregarOjos(0, 2, "azul", 2.0);
     builder.agregarOrejas(0, 2, "lado", 5.0);
     builder.agregarNarices(0, 1, 2, 4.0);

@@ -1,48 +1,97 @@
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 using namespace std;
 
-class classExtranjera{
+class Mago{
     public:
-        double x;
+        int fuego = 15, hielo = 20, trueno = 10;
 
-        classExtranjera(){}
+        Mago(){}
 
-        string metodoExtranjero(){
-            return "EX";
+        virtual int lanzarMagia() = 0;
+};
+
+class MagoFuego : public Mago{
+    public:
+        MagoFuego(){
+
+        }
+
+        int lanzarMagia() {
+            return fuego;
         }
 };
 
-class classNormal{
+class MagoHielo : public Mago{
     public:
-        classNormal(){}
+        MagoHielo(){
 
-        string metodoNormal(){
-            return "N";
+        }
+
+        int lanzarMagia() {
+            return hielo;
+        };
+};
+
+class MagoTrueno : public Mago{
+    public:
+        MagoTrueno(){
+
+        }
+
+        int lanzarMagia() {
+            return trueno;
+        };
+};
+
+class Guerrero{
+    public:
+        int fuerza = 10;
+
+        Guerrero(){}
+
+        string atacar(){
+            return "ataca con su arma causando: " + to_string(fuerza) + " puntos de daño.";
         }
 };
 
-class Adapter : public classNormal{
+class Adapter : public Guerrero{
     public:
-        classExtranjera* classEx;
+        Mago* mago;
 
-        Adapter(classExtranjera ex){
-            classEx = &ex;
+        Adapter(Mago& m){
+            mago = &m;
         }
 
-        string metodoNormal(){
-            return classEx->metodoExtranjero();
+        string atacar(){
+            string ataque = "ataca lanzando magia de ";
+            if (MagoFuego* mf =  dynamic_cast<MagoFuego*>(mago)){
+                ataque += "fuego causando: " + to_string(mf->lanzarMagia()) + " puntos de daño.";
+            }else if (MagoHielo* mh =  dynamic_cast<MagoHielo*>(mago)){
+                ataque += "hielo causando: " + to_string(mh->lanzarMagia()) + " puntos de daño.";
+            }else if (MagoTrueno* mt =  dynamic_cast<MagoTrueno*>(mago)){
+                ataque += "trueno causando: " + to_string(mt->lanzarMagia()) + " puntos de daño.";
+            }
+            return ataque;
         }
 };
 
 
 int main(){
-    classNormal n;
-    classExtranjera e;
-    Adapter a(e);
+    Guerrero g;
+    MagoFuego mf;
+    MagoHielo mh;
+    MagoTrueno mt;
+    Adapter adapMagoF(mf);
+    Adapter adapMagoH(mh);
+    Adapter adapMagoT(mt);
 
-    cout << a.metodoNormal();
+    cout << g.atacar() << endl;
+    cout << adapMagoF.atacar() << endl;
+    cout << adapMagoH.atacar() << endl;
+    cout << adapMagoT.atacar() << endl;
 
     return 0;
 }

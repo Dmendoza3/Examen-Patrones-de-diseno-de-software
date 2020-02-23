@@ -16,8 +16,6 @@ class point{
         x = nx;
         y = ny;
     }
-
-
 };
 
 class PlanoCartesiano {
